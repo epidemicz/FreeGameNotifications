@@ -6,9 +6,7 @@
              mc:Ignorable="d"
              d:DesignHeight="400" d:DesignWidth="600">
     <StackPanel>
-        <TextBlock Text="Description for Option1:"/>
-        <TextBox Text="{Binding Settings.Option1}"/>
-        <TextBlock Text="Description for Option2:"/>
-        <CheckBox IsChecked="{Binding Settings.Option2}"/>
+        <TextBlock Text="Show notifications for games already collected:" ToolTip="Check this if you'd like to see notifications for games you already have"/>
+        <CheckBox IsChecked="{Binding Settings.AlwaysShowNotifications}"/>
     </StackPanel>
 </UserControl>

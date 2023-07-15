@@ -24,7 +24,7 @@ namespace FreeGameNotifications
             settings = new FreeGameNotificationsSettingsViewModel(this);
             Properties = new GenericPluginProperties
             {
-                HasSettings = false
+                HasSettings = true
             };
         }
 
@@ -71,7 +71,7 @@ namespace FreeGameNotifications
                     System.Diagnostics.Process.Start(game.Url);
                 });
 
-                if (!PlayniteApi.Database.Games.Any(i => i.Name == game.Title))
+                if (!PlayniteApi.Database.Games.Any(i => i.Name == game.Title) || settings.Settings.AlwaysShowNotifications)
                 {
                     PlayniteApi.Notifications.Add(notification);
                 }
