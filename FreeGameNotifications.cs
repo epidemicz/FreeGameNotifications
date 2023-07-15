@@ -56,7 +56,25 @@ namespace FreeGameNotifications
         public override void OnApplicationStarted(OnApplicationStartedEventArgs args)
         {
             // Add code to be executed when Playnite is initialized.
-            PlayniteApi.Notifications.Add("my-notificaation-id", "Hello World!", NotificationType.Info);
+            var i = 0;
+            Task.Run(async () =>
+            {
+                var games = await EpicGamesWebApi.GetGames();
+
+                foreach (var game in games)
+                {
+                    PlayniteApi.Notifications.Add($"my-id-{i++}", game, NotificationType.Info);
+                    //this.PlayniteApi.Database.Games.Contains(new Game(""))
+                }
+            });
+
+            //var games = EpicGamesWebApi.GetGames().Result;
+
+
+            //foreach (var game in games)
+            //{
+            //    PlayniteApi.Notifications.Add($"my-id-{i++}", game, NotificationType.Info);
+            //}
         }
 
         public override void OnApplicationStopped(OnApplicationStoppedEventArgs args)
