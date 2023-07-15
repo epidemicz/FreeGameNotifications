@@ -13,7 +13,7 @@ namespace FreeGameNotifications
 {
     public class EpicGamesWebApi
     {
-        public static async Task<List<string>> GetGames()
+        public static async Task<List<Notification>> GetGames()
         {
             using (var client = new HttpClient())
             {
@@ -23,24 +23,24 @@ namespace FreeGameNotifications
                 var data = JObject.Parse(json)["data"];
                 var elements = data["Catalog"]["searchStore"]["elements"];
 
-                var games = new List<string>();
+                var games = new List<Notification>();
 
                 foreach (var element in elements)
                 {
                     if (element["price"]["totalPrice"]["discountPrice"].Value<int>() == 0)
                     {
                         var gameTitle = element["title"].ToString();
-                        //var pageSlug = element["offerMappings"].First?["pageSlug"];
-                        var pageSlug = element["productSlug"];
-                        var url = $"https://store.epicgames.com/en-US/p/{pageSlug}";
+                        // slug might be pageSlug also or not even there
+                        var slug = element["productSlug"].ToString();
+                        var url = $"https://store.epicgames.com/en-US/p/{slug}";
 
-                        var message = "Free on the Epic Game Store:\n" +
-                                      $"{gameTitle}\n" +
-                                      $"{url}";
-
-                        games.Add(message);
-
-                        //Console.WriteLine(element);
+                        games.Add(new Notification
+                        {
+                            Title = gameTitle,
+                            Url = !string.IsNullOrEmpty(slug) ? url : "https://store.epicgames.com/en-US/free-games",
+                            Description = $"Free on the Epic Game Store:\n" + 
+                                          $"{gameTitle}\n"
+                        });
                     }
                 }
 

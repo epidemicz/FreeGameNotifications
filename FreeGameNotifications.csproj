@@ -58,6 +58,7 @@
     <Compile Include="FreeGameNotificationsSettingsView.xaml.cs">
       <DependentUpon>FreeGameNotificationsSettingsView.xaml</DependentUpon>
     </Compile>
+    <Compile Include="Notification.cs" />
     <Compile Include="Properties\AssemblyInfo.cs" />
   </ItemGroup>
   <ItemGroup>

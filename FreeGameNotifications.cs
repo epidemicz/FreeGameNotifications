@@ -24,7 +24,7 @@ namespace FreeGameNotifications
             settings = new FreeGameNotificationsSettingsViewModel(this);
             Properties = new GenericPluginProperties
             {
-                HasSettings = true
+                HasSettings = false
             };
         }
 
@@ -53,28 +53,33 @@ namespace FreeGameNotifications
             // Add code to be executed when game is uninstalled.
         }
 
-        public override void OnApplicationStarted(OnApplicationStartedEventArgs args)
+        public override async void OnApplicationStarted(OnApplicationStartedEventArgs args)
         {
-            // Add code to be executed when Playnite is initialized.
-            var i = 0;
-            Task.Run(async () =>
+            // Add code to be executed when Playnite is initialized.            
+            logger.Debug("Application Started");
+
+            var games = await EpicGamesWebApi.GetGames();
+
+            logger.Debug($"Found {games.Count} games from EpicGamesWebApi");
+
+            foreach (var game in games)
             {
-                var games = await EpicGamesWebApi.GetGames();
+                logger.Debug(game.Title);
 
-                foreach (var game in games)
+                var notification = new NotificationMessage($"test-{game.Title}", game.Description, NotificationType.Info, () =>
                 {
-                    PlayniteApi.Notifications.Add($"my-id-{i++}", game, NotificationType.Info);
-                    //this.PlayniteApi.Database.Games.Contains(new Game(""))
+                    System.Diagnostics.Process.Start(game.Url);
+                });
+
+                if (!PlayniteApi.Database.Games.Any(i => i.Name == game.Title))
+                {
+                    PlayniteApi.Notifications.Add(notification);
                 }
-            });
-
-            //var games = EpicGamesWebApi.GetGames().Result;
-
-
-            //foreach (var game in games)
-            //{
-            //    PlayniteApi.Notifications.Add($"my-id-{i++}", game, NotificationType.Info);
-            //}
+                else
+                {
+                    logger.Debug($"{game.Title} appears to already be in game library, skipping notification");
+                }
+            }
         }
 
         public override void OnApplicationStopped(OnApplicationStoppedEventArgs args)
