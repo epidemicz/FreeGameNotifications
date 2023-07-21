@@ -7,6 +7,6 @@
              d:DesignHeight="400" d:DesignWidth="600">
     <StackPanel>
         <TextBlock Text="Show notifications for games already collected:" ToolTip="Check this if you'd like to see notifications for games you already have"/>
-        <CheckBox IsChecked="{Binding Settings.AlwaysShowNotifications}"/>
+        <CheckBox IsChecked="{Binding Settings.AlwaysShowNotifications}" ToolTip="Check this if you'd like to see notifications for games you already have"/>
     </StackPanel>
 </UserControl>

@@ -83,6 +83,9 @@ namespace FreeGameNotifications
             // Executed before EndEdit is called and EndEdit is not called if false is returned.
             // List of errors is presented to user if verification fails.
             errors = new List<string>();
+
+            _ = this.plugin.CheckEpicGameStore();
+
             return true;
         }
     }

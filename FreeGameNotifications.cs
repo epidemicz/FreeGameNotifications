@@ -8,11 +8,13 @@ using System.Linq;
 using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
+using System.Timers;
 
 namespace FreeGameNotifications
 {
     public class FreeGameNotifications : GenericPlugin
     {
+        private static Timer timer;
         private static readonly ILogger logger = LogManager.GetLogger();
 
         private FreeGameNotificationsSettingsViewModel settings { get; set; }
@@ -53,11 +55,49 @@ namespace FreeGameNotifications
             // Add code to be executed when game is uninstalled.
         }
 
-        public override async void OnApplicationStarted(OnApplicationStartedEventArgs args)
+        public override void OnApplicationStarted(OnApplicationStartedEventArgs args)
         {
             // Add code to be executed when Playnite is initialized.            
             logger.Debug("Application Started");
 
+            logger.Debug("Initializing new timer");
+
+            // check once an hour
+            timer = new Timer(1000 * 60 * 60);
+
+            timer.Elapsed += (Object source, ElapsedEventArgs e) =>
+            {
+                _ = CheckEpicGameStore();
+            };
+
+            timer.Enabled = true;
+
+            // also go ahead and check on startup
+            _ = CheckEpicGameStore();
+        }
+
+        public override void OnApplicationStopped(OnApplicationStoppedEventArgs args)
+        {
+            // Add code to be executed when Playnite is shutting down.
+        }
+
+        public override void OnLibraryUpdated(OnLibraryUpdatedEventArgs args)
+        {
+            // Add code to be executed when library is updated.
+        }
+
+        public override ISettings GetSettings(bool firstRunSettings)
+        {
+            return settings;
+        }
+
+        public override UserControl GetSettingsView(bool firstRunSettings)
+        {
+            return new FreeGameNotificationsSettingsView();
+        }
+
+        public async Task CheckEpicGameStore()
+        {
             var games = await EpicGamesWebApi.GetGames();
 
             logger.Debug($"Found {games.Count} games from EpicGamesWebApi");
@@ -82,24 +122,16 @@ namespace FreeGameNotifications
             }
         }
 
-        public override void OnApplicationStopped(OnApplicationStoppedEventArgs args)
-        {
-            // Add code to be executed when Playnite is shutting down.
-        }
 
-        public override void OnLibraryUpdated(OnLibraryUpdatedEventArgs args)
-        {
-            // Add code to be executed when library is updated.
-        }
-
-        public override ISettings GetSettings(bool firstRunSettings)
-        {
-            return settings;
-        }
-
-        public override UserControl GetSettingsView(bool firstRunSettings)
-        {
-            return new FreeGameNotificationsSettingsView();
-        }
+        // add aa main menu item
+        // https://api.playnite.link/docs/tutorials/extensions/menus.html?tabs=csharp
+        //public override IEnumerable<MainMenuItem> GetMainMenuItems(GetMainMenuItemsArgs args)
+        //{
+        //    yield return new MainMenuItem
+        //    {
+        //        Description = "Test Item",
+        //        Action = (args1) => Console.WriteLine("Invoked from main menu item!")
+        //    };
+        //}
     }
 }

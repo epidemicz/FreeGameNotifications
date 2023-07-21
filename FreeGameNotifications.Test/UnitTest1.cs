@@ -7,12 +7,10 @@ namespace FreeGameNotifications.Test
     public class UnitTest1
     {
         [TestMethod]
-        public void TestMethod1()
+        public async void TestMethod1()
         {
-            Task.Run(async () =>
-            {
-                var games = await EpicGamesWebApi.GetGames();
-            }).Wait();
+            var games = await EpicGamesWebApi.GetGames();
+            Assert.IsNotNull(games);   
         }
     }
 }
