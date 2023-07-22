@@ -33,6 +33,13 @@ namespace FreeGameNotifications
                         // slug might be pageSlug also or not even there
                         var slug = element["productSlug"].ToString();
                         var url = $"https://store.epicgames.com/en-US/p/{slug}";
+                        var isCodeRedemptionOnly = element["isCodeRedemptionOnly"].ToString().ToUpper() == "TRUE";
+
+                        // skipping code redemption only
+                        if (isCodeRedemptionOnly)
+                        {
+                            continue;
+                        }
 
                         games.Add(new Notification
                         {

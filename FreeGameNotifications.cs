@@ -122,7 +122,6 @@ namespace FreeGameNotifications
             }
         }
 
-
         // add aa main menu item
         // https://api.playnite.link/docs/tutorials/extensions/menus.html?tabs=csharp
         //public override IEnumerable<MainMenuItem> GetMainMenuItems(GetMainMenuItemsArgs args)
