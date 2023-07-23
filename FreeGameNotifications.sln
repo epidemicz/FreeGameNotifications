@@ -5,8 +5,6 @@ VisualStudioVersion = 17.6.33829.357
 MinimumVisualStudioVersion = 10.0.40219.1
 Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeGameNotifications", "FreeGameNotifications.csproj", "{4FDF1E89-5BC3-4C72-8FDA-0D580E7A5D5F}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "FreeGameNotifications.Test", "FreeGameNotifications.Test\FreeGameNotifications.Test.csproj", "{F603131D-BAC9-4958-9885-1C6C5E44C317}"
-EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
 		Debug|Any CPU = Debug|Any CPU
@@ -17,10 +15,6 @@ Global
 		{4FDF1E89-5BC3-4C72-8FDA-0D580E7A5D5F}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{4FDF1E89-5BC3-4C72-8FDA-0D580E7A5D5F}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{4FDF1E89-5BC3-4C72-8FDA-0D580E7A5D5F}.Release|Any CPU.Build.0 = Release|Any CPU
-		{F603131D-BAC9-4958-9885-1C6C5E44C317}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
-		{F603131D-BAC9-4958-9885-1C6C5E44C317}.Debug|Any CPU.Build.0 = Debug|Any CPU
-		{F603131D-BAC9-4958-9885-1C6C5E44C317}.Release|Any CPU.ActiveCfg = Release|Any CPU
-		{F603131D-BAC9-4958-9885-1C6C5E44C317}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE

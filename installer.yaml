@@ -1,0 +1,9 @@
+AddonId: FreeGameNotifications_e053a9fe-117f-40fd-ab46-0e09ac442ca9
+Packages:
+  - Version: 2.0
+    RequiredApiVersion: 6.2.0
+    ReleaseDate: 2023-07-23
+    PackageUrl: https://addon.link/SomeAddonID_2_0.pext
+    Changelog:
+      - Message 1
+      - Message 2
