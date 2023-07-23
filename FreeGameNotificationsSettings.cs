@@ -13,9 +13,12 @@ namespace FreeGameNotifications
         private string option1 = string.Empty;
         private bool alwaysShowNotifications = false;
         private bool optionThatWontBeSaved = false;
+        private int checkInterval = 3600000;
 
         public string Option1 { get => option1; set => SetValue(ref option1, value); }
         public bool AlwaysShowNotifications { get => alwaysShowNotifications; set => SetValue(ref alwaysShowNotifications, value); }
+        public int CheckInterval { get => checkInterval; set => SetValue(ref checkInterval, value); }
+
         // Playnite serializes settings object to a JSON object and saves it as text file.
         // If you want to exclude some property from being saved then use `JsonDontSerialize` ignore attribute.
         [DontSerialize]
@@ -83,6 +86,13 @@ namespace FreeGameNotifications
             // Executed before EndEdit is called and EndEdit is not called if false is returned.
             // List of errors is presented to user if verification fails.
             errors = new List<string>();
+
+            if (settings.CheckInterval < 60000)
+            {
+                settings.CheckInterval = 60000;
+            }
+
+            this.plugin.ResetTimer(settings.CheckInterval);
 
             _ = this.plugin.CheckEpicGameStore();
 

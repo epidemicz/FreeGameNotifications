@@ -14,12 +14,24 @@ namespace FreeGameNotifications
 {
     public class FreeGameNotifications : GenericPlugin
     {
-        private static Timer timer;
         private static readonly ILogger logger = LogManager.GetLogger();
+        private static Timer timer;
 
         private FreeGameNotificationsSettingsViewModel settings { get; set; }
 
         public override Guid Id { get; } = Guid.Parse("e053a9fe-117f-40fd-ab46-0e09ac442ca9");
+
+        public void ResetTimer(int interval)
+        {
+            if (timer.Enabled)
+            {
+                timer.Stop();
+            }
+
+            timer.Interval = interval;
+            timer.Enabled = true;
+            timer.Start();
+        }
 
         public FreeGameNotifications(IPlayniteAPI api) : base(api)
         {
@@ -30,36 +42,10 @@ namespace FreeGameNotifications
             };
         }
 
-        public override void OnGameInstalled(OnGameInstalledEventArgs args)
-        {
-            // Add code to be executed when game is finished installing.
-        }
-
-        public override void OnGameStarted(OnGameStartedEventArgs args)
-        {
-            // Add code to be executed when game is started running.
-        }
-
-        public override void OnGameStarting(OnGameStartingEventArgs args)
-        {
-            // Add code to be executed when game is preparing to be started.
-        }
-
-        public override void OnGameStopped(OnGameStoppedEventArgs args)
-        {
-            // Add code to be executed when game is preparing to be started.
-        }
-
-        public override void OnGameUninstalled(OnGameUninstalledEventArgs args)
-        {
-            // Add code to be executed when game is uninstalled.
-        }
-
         public override void OnApplicationStarted(OnApplicationStartedEventArgs args)
         {
             // Add code to be executed when Playnite is initialized.            
             logger.Debug("Application Started");
-
             logger.Debug("Initializing new timer");
 
             // check once an hour
@@ -79,11 +65,10 @@ namespace FreeGameNotifications
         public override void OnApplicationStopped(OnApplicationStoppedEventArgs args)
         {
             // Add code to be executed when Playnite is shutting down.
-        }
-
-        public override void OnLibraryUpdated(OnLibraryUpdatedEventArgs args)
-        {
-            // Add code to be executed when library is updated.
+            if (timer.Enabled)
+            {
+                timer.Stop();
+            }
         }
 
         public override ISettings GetSettings(bool firstRunSettings)
@@ -121,16 +106,5 @@ namespace FreeGameNotifications
                 }
             }
         }
-
-        // add aa main menu item
-        // https://api.playnite.link/docs/tutorials/extensions/menus.html?tabs=csharp
-        //public override IEnumerable<MainMenuItem> GetMainMenuItems(GetMainMenuItemsArgs args)
-        //{
-        //    yield return new MainMenuItem
-        //    {
-        //        Description = "Test Item",
-        //        Action = (args1) => Console.WriteLine("Invoked from main menu item!")
-        //    };
-        //}
     }
 }
