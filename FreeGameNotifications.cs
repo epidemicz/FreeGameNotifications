@@ -106,7 +106,7 @@ namespace FreeGameNotifications
             {
                 logger.Debug(game.Title);
 
-                var notification = new NotificationMessage($"test-{game.Title}", game.Description, NotificationType.Info, () =>
+                var notification = new NotificationMessage($"{game.Title}", game.Description, NotificationType.Info, () =>
                 {
                     System.Diagnostics.Process.Start(game.Url);
                 });
