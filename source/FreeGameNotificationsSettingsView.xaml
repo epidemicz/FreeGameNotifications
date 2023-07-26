@@ -8,7 +8,7 @@
     <StackPanel>
         <TextBlock Text="Show notifications for games already collected:" ToolTip="Check this if you'd like to see notifications for games you already have"/>
         <CheckBox IsChecked="{Binding Settings.AlwaysShowNotifications}" ToolTip="Check this if you'd like to see notifications for games you already have"/>
-        <TextBlock Text="Check Interval (in ms):"></TextBlock>
-        <TextBox Text="{Binding Settings.CheckInterval, FallbackValue=3600000, TargetNullValue=3600000}"></TextBox>
+        <TextBlock Text="Check Interval (in ms):" Visibility="Hidden"></TextBlock>
+        <TextBox Text="{Binding Settings.CheckInterval}" InputScope="Number" Visibility="Hidden"></TextBox>
     </StackPanel>
 </UserControl>
