@@ -1,4 +1,4 @@
-# <img src="source/icon.png" width=32> FreeGameNotifications Plugin
+# <img src="source/icon.png" width=32> Free Game Notifications Plugin
 This plugin periodically checks the Epic Games Store for free games and gives you a notification when there's a free game to claim that you don't already own.  
 
 Clicking the notification brings you to the game page so you can claim it.
