@@ -3,7 +3,7 @@ Packages:
   - Version: 1.0.0
     RequiredApiVersion: 6.2.0
     ReleaseDate: 2023-07-23
-    PackageUrl: https://github.com/epidemicz/FreeGameNotificataions/releases/download/1.0.0/FreeGameNotifications_e053a9fe-117f-40fd-ab46-0e09ac442ca9_1_0_0.pext
+    PackageUrl: https://github.com/epidemicz/FreeGameNotifications/releases/download/1.0.0/FreeGameNotifications_e053a9fe-117f-40fd-ab46-0e09ac442ca9_1_0_0.pext
     Changelog:
       - Initial Release
       - Checks Epic Games Store on startup and once an hour for new free deals
