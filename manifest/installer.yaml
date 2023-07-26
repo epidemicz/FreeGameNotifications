@@ -1,9 +1,10 @@
 AddonId: FreeGameNotifications_e053a9fe-117f-40fd-ab46-0e09ac442ca9
 Packages:
-  - Version: 2.0
+  - Version: 1.0.0
     RequiredApiVersion: 6.2.0
     ReleaseDate: 2023-07-23
-    PackageUrl: https://addon.link/SomeAddonID_2_0.pext
+    PackageUrl: https://github.com/epidemicz/FreeGameNotificataions/releases/download/1.0.0/FreeGameNotifications_e053a9fe-117f-40fd-ab46-0e09ac442ca9_1_0_0.pext
     Changelog:
-      - Message 1
-      - Message 2
+      - Initial Release
+      - Checks Epic Games Store on startup and once an hour for new free deals
+      - You can check the box in Addons > Generic > Free Game Notifications if you want to see the notification even if you own the game
