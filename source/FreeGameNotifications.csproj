@@ -65,7 +65,6 @@
     <None Include="extension.yaml">
       <CopyToOutputDirectory>PreserveNewest</CopyToOutputDirectory>
     </None>
-    <None Include="installer.yaml" />
     <None Include="packages.config" />
   </ItemGroup>
   <ItemGroup>
