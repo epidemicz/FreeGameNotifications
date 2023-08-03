@@ -8,6 +8,8 @@ using System.Windows;
 using System.Windows.Controls.Primitives;
 using System.Windows.Documents;
 using Newtonsoft.Json.Linq;
+using Playnite.SDK;
+using static System.Net.WebRequestMethods;
 
 namespace FreeGameNotifications
 {
@@ -31,8 +33,6 @@ namespace FreeGameNotifications
                     {
                         var gameTitle = element["title"].ToString();
                         // slug might be pageSlug also or not even there
-                        var slug = element["productSlug"].ToString();
-                        var url = $"https://store.epicgames.com/en-US/p/{slug}";
                         var isCodeRedemptionOnly = element["isCodeRedemptionOnly"].ToString().ToUpper() == "TRUE";
 
                         // skipping code redemption only
@@ -41,11 +41,13 @@ namespace FreeGameNotifications
                             continue;
                         }
 
+                        var url = GetGameUrl(element);
+
                         games.Add(new Notification
                         {
                             Title = gameTitle,
-                            Url = !string.IsNullOrEmpty(slug) ? url : "https://store.epicgames.com/en-US/free-games",
-                            Description = $"Free on the Epic Game Store:\n" + 
+                            Url = url,
+                            Description = $"Free on the Epic Game Store:\n" +
                                           $"{gameTitle}\n"
                         });
                     }
@@ -53,6 +55,32 @@ namespace FreeGameNotifications
 
                 return games;
             }
+        }
+
+        private static string GetGameUrl(JToken element)
+        {
+            // the url of the game isn't consistent
+            // it seems like it's in different spots for each game
+            var slug = string.Empty;
+
+            try
+            {
+                slug = element["productSlug"].ToString();
+
+                if (string.IsNullOrWhiteSpace(slug))
+                {
+                    slug = element["catalogNs"]["mappings"][0]["pageSlug"].ToString();
+                }
+
+                return $"https://store.epicgames.com/en-US/p/{slug}";
+            }
+            catch
+            {
+                slug = string.Empty;
+            }
+
+            // couldn't resolve the real game page
+            return "https://store.epicgames.com/en-US/free-games";
         }
     }
 }
