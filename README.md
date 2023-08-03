@@ -1,3 +1,5 @@
+[![ko-fi](https://ko-fi.com/img/githubbutton_sm.svg)](https://ko-fi.com/S6S3NKK32)
+
 # <img src="source/icon.png" width=32> Free Game Notifications Plugin
 This plugin periodically checks the Epic Games Store for free games and gives you a notification when there's a free game to claim that you don't already own.  
 
