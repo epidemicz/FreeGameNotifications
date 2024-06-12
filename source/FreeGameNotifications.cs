@@ -31,7 +31,7 @@ namespace FreeGameNotifications
                 timer.Stop();
             }
 
-            timer.Interval = interval;
+            timer.Interval = ConvertHourToMillis(interval);
             timer.Enabled = true;
             timer.Start();
         }
@@ -60,13 +60,19 @@ namespace FreeGameNotifications
 
         private void CreateTimer()
         {
-            timer = new Timer(1000 * 60 * 60 * settings.Settings.CheckInterval); // hours to millis
+            timer = new Timer(ConvertHourToMillis(settings.Settings.CheckInterval));
             timer.Elapsed += (Object source, ElapsedEventArgs e) =>
             {
                 _ = CheckEpicGameStore();
             };
 
             timer.Enabled = true;
+            timer.Start();
+        }
+
+        private int ConvertHourToMillis(int interval)
+        {
+            return 1000 * 60 * 60 * settings.Settings.CheckInterval;
         }
 
         public override void OnApplicationStopped(OnApplicationStoppedEventArgs args)
