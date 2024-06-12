@@ -23,6 +23,9 @@ namespace FreeGameNotifications
 
         public void ResetTimer(int interval)
         {
+            if (timer == null)
+                CreateTimer();
+
             if (timer.Enabled)
             {
                 timer.Stop();
@@ -48,18 +51,22 @@ namespace FreeGameNotifications
             logger.Debug("Application Started");
             logger.Debug("Initializing new timer");
 
-            // check once an hour
-            timer = new Timer(1000 * 60 * 60);
+            // check depending on settings
+            CreateTimer();
 
+            // also go ahead and check on startup
+            _ = CheckEpicGameStore();
+        }
+
+        private void CreateTimer()
+        {
+            timer = new Timer(1000 * 60 * 60 * settings.Settings.CheckInterval); // hours to millis
             timer.Elapsed += (Object source, ElapsedEventArgs e) =>
             {
                 _ = CheckEpicGameStore();
             };
 
             timer.Enabled = true;
-
-            // also go ahead and check on startup
-            _ = CheckEpicGameStore();
         }
 
         public override void OnApplicationStopped(OnApplicationStoppedEventArgs args)
@@ -89,20 +96,30 @@ namespace FreeGameNotifications
 
             foreach (var game in games)
             {
-                logger.Debug(game.Title);
+                if (settings.Settings.UseNotificationHistory && settings.Settings.History.Contains(game.Title))
+                {
+                    logger.Debug($"{game.Title} : notification ignored because it is in history");
+                    continue;
+                }
+
+                if (!settings.Settings.AlwaysShowNotifications && PlayniteApi.Database.Games.Any(i => i.Name == game.Title))
+                {
+                    logger.Debug($"{game.Title} : notification ignored because it is already in the library");
+                    continue;
+                }
+
+                logger.Debug($"{game.Title} : showing notifcation");
 
                 var notification = new NotificationMessage($"{game.Title}", game.Description, NotificationType.Info, () =>
                 {
                     System.Diagnostics.Process.Start(game.Url);
                 });
 
-                if (!PlayniteApi.Database.Games.Any(i => i.Name == game.Title) || settings.Settings.AlwaysShowNotifications)
-                {
-                    PlayniteApi.Notifications.Add(notification);
-                }
-                else
-                {
-                    logger.Debug($"{game.Title} appears to already be in game library, skipping notification");
+                PlayniteApi.Notifications.Add(notification);
+
+                if(settings.Settings.UseNotificationHistory) {
+                    logger.Debug($"{game.Title} : adding to history");
+                    settings.Settings.History.Add(game.Title);
                 }
             }
         }
