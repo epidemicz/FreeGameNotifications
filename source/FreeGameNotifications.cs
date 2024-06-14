@@ -9,6 +9,7 @@ using System.Text;
 using System.Threading.Tasks;
 using System.Windows.Controls;
 using System.Timers;
+using System.Runtime;
 
 namespace FreeGameNotifications
 {
@@ -17,7 +18,7 @@ namespace FreeGameNotifications
         private static readonly ILogger logger = LogManager.GetLogger();
         private static Timer timer;
 
-        private FreeGameNotificationsSettingsViewModel settings { get; set; }
+        private FreeGameNotificationsSettingsViewModel Settings { get; set; }
 
         public override Guid Id { get; } = Guid.Parse("e053a9fe-117f-40fd-ab46-0e09ac442ca9");
 
@@ -38,7 +39,7 @@ namespace FreeGameNotifications
 
         public FreeGameNotifications(IPlayniteAPI api) : base(api)
         {
-            settings = new FreeGameNotificationsSettingsViewModel(this);
+            Settings = new FreeGameNotificationsSettingsViewModel(this);
             Properties = new GenericPluginProperties
             {
                 HasSettings = true
@@ -60,7 +61,7 @@ namespace FreeGameNotifications
 
         private void CreateTimer()
         {
-            timer = new Timer(ConvertHourToMillis(settings.Settings.CheckInterval));
+            timer = new Timer(ConvertHourToMillis(Settings.Settings.CheckInterval));
             timer.Elapsed += (Object source, ElapsedEventArgs e) =>
             {
                 _ = CheckEpicGameStore();
@@ -72,7 +73,7 @@ namespace FreeGameNotifications
 
         private int ConvertHourToMillis(int interval)
         {
-            return 1000 * 60 * 60 * settings.Settings.CheckInterval;
+            return 1000 * 60 * 60 * interval;
         }
 
         public override void OnApplicationStopped(OnApplicationStoppedEventArgs args)
@@ -86,7 +87,7 @@ namespace FreeGameNotifications
 
         public override ISettings GetSettings(bool firstRunSettings)
         {
-            return settings;
+            return Settings;
         }
 
         public override UserControl GetSettingsView(bool firstRunSettings)
@@ -102,13 +103,13 @@ namespace FreeGameNotifications
 
             foreach (var game in games)
             {
-                if (settings.Settings.UseNotificationHistory && settings.Settings.History.Contains(game.Title))
+                if (Settings.Settings.UseNotificationHistory && Settings.Settings.History.Contains(game.Title))
                 {
                     logger.Debug($"{game.Title} : notification ignored because it is in history");
                     continue;
                 }
 
-                if (!settings.Settings.AlwaysShowNotifications && PlayniteApi.Database.Games.Any(i => i.Name == game.Title))
+                if (!Settings.Settings.AlwaysShowNotifications && PlayniteApi.Database.Games.Any(i => i.Name == game.Title))
                 {
                     logger.Debug($"{game.Title} : notification ignored because it is already in the library");
                     continue;
@@ -123,9 +124,10 @@ namespace FreeGameNotifications
 
                 PlayniteApi.Notifications.Add(notification);
 
-                if(settings.Settings.UseNotificationHistory) {
+                if(Settings.Settings.UseNotificationHistory) {
                     logger.Debug($"{game.Title} : adding to history");
-                    settings.Settings.History.Add(game.Title);
+                    Settings.Settings.History.Add(game.Title);
+                    this.SavePluginSettings(Settings.Settings);
                 }
             }
         }

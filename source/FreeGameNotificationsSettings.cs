@@ -25,7 +25,7 @@ namespace FreeGameNotifications
     public class FreeGameNotificationsSettingsViewModel : ObservableObject, ISettings
     {
         private readonly FreeGameNotifications plugin;
-        private FreeGameNotificationsSettings editingClone { get; set; }
+        private FreeGameNotificationsSettings EditingClone { get; set; }
 
         private FreeGameNotificationsSettings settings;
         public FreeGameNotificationsSettings Settings
@@ -60,14 +60,14 @@ namespace FreeGameNotifications
         public void BeginEdit()
         {
             // Code executed when settings view is opened and user starts editing values.
-            editingClone = Serialization.GetClone(Settings);
+            EditingClone = Serialization.GetClone(Settings);
         }
 
         public void CancelEdit()
         {
             // Code executed when user decides to cancel any changes made since BeginEdit was called.
             // This method should revert any changes made to Option1 and Option2.
-            Settings = editingClone;
+            Settings = EditingClone;
         }
 
         public void EndEdit()

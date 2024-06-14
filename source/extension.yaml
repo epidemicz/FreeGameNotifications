@@ -1,12 +1,12 @@
 ﻿Id: FreeGameNotifications_e053a9fe-117f-40fd-ab46-0e09ac442ca9
 Name: Free Game Notifications
-Author: Epidemicz
-Version: 1.1.0
+Author: Epidemicz, AlexeSimon
+Version: 1.1.1
 Module: FreeGameNotifications.dll
 Type: GenericPlugin
 Icon: icon.png
 Links:
     - Name: GitHub
-      Url: https://github.com/epidemicz/FreeGameNotifications
-    - Name: Ko-fi (Support Development)
+      Url: https://github.com/AlexeSimon/FreeGameNotificationsHistory
+    - Name: Ko-fi (Support Epidemicz' Development)
       Url: https://ko-fi.com/epidemicz
