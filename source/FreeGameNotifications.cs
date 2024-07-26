@@ -1,15 +1,11 @@
 ﻿using Playnite.SDK;
 using Playnite.SDK.Events;
-using Playnite.SDK.Models;
 using Playnite.SDK.Plugins;
 using System;
-using System.Collections.Generic;
 using System.Linq;
-using System.Text;
 using System.Threading.Tasks;
-using System.Windows.Controls;
 using System.Timers;
-using System.Runtime;
+using System.Windows.Controls;
 
 namespace FreeGameNotifications
 {
@@ -111,7 +107,7 @@ namespace FreeGameNotifications
 
                 if (!Settings.Settings.AlwaysShowNotifications && PlayniteApi.Database.Games.Any(i => i.Name == game.Title))
                 {
-                    logger.Debug($"{game.Title} : notification ignored because it is already in the library");
+                    logger.Debug($"{game.Title} : notification ignored because it is in the library");
                     continue;
                 }
 
@@ -124,7 +120,8 @@ namespace FreeGameNotifications
 
                 PlayniteApi.Notifications.Add(notification);
 
-                if(Settings.Settings.UseNotificationHistory) {
+                if (Settings.Settings.UseNotificationHistory)
+                {
                     logger.Debug($"{game.Title} : adding to history");
                     Settings.Settings.History.Add(game.Title);
                     this.SavePluginSettings(Settings.Settings);

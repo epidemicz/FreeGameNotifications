@@ -1,5 +1,12 @@
 AddonId: FreeGameNotifications_e053a9fe-117f-40fd-ab46-0e09ac442ca9
 Packages:
+  - Version: 1.1.1
+    RequiredApiVersion: 6.2.0
+    ReleaseDate: 2024-07-25
+    PackageUrl: https://github.com/epidemicz/FreeGameNotifications/releases/download/1.1.1/FreeGameNotifications_e053a9fe-117f-40fd-ab46-0e09ac442ca9_1_1_1.pext
+    Changelog:
+      - Added a new option to only show game notifications once (default on)
+      - Changed Check Interval from milliseconds to hours and set some limits (min 1, max 24)
   - Version: 1.0.1
     RequiredApiVersion: 6.2.0
     ReleaseDate: 2023-08-03

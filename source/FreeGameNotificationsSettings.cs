@@ -1,10 +1,6 @@
 ﻿using Playnite.SDK;
 using Playnite.SDK.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FreeGameNotifications
 {
@@ -84,9 +80,13 @@ namespace FreeGameNotifications
             // List of errors is presented to user if verification fails.
             errors = new List<string>();
 
-            if(settings.CheckInterval < 1)
+            if (settings.CheckInterval < 1)
             {
                 settings.CheckInterval = 1;
+            }
+            else if (settings.CheckInterval > 24)
+            {
+                settings.CheckInterval = 24;
             }
 
             this.plugin.ResetTimer(settings.CheckInterval);

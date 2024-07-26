@@ -8,7 +8,7 @@
     <StackPanel>
         <TextBlock Text="Show notifications for games already collected:" ToolTip="Check this if you'd like to see notifications for games you already have" TextWrapping="Wrap" Margin="0,10,0,0"/>
         <CheckBox IsChecked="{Binding Settings.AlwaysShowNotifications}" ToolTip="Check this if you'd like to see notifications for games you already have" HorizontalAlignment="Left" Margin="10,0,0,0"/>
-        <TextBlock TextWrapping="Wrap" Margin="0,10,0,0" Text="Check Interval (in hours ; minimum value : 1)"/>
+        <TextBlock TextWrapping="Wrap" Margin="0,10,0,0" Text="Check Interval (in hours ; minimum value: 1, maximum value: 24)"/>
         <TextBox Text="{Binding Settings.CheckInterval}" InputScope="Number" Width="252" HorizontalAlignment="Left" Margin="10,0,0,0"/>
         <TextBlock Text="Save shown notifications in a local history and do not show them again:" ToolTip="Check this if you'd like to not see notifications you've already seen" TextWrapping="Wrap" Margin="0,10,0,0"/>
         <CheckBox IsChecked="{Binding Settings.UseNotificationHistory}" ToolTip="Check this if you'd like to not see notifications you've already seen" Margin="10,0,0,0"/>
