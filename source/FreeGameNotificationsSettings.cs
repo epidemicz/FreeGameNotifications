@@ -1,34 +1,27 @@
 ﻿using Playnite.SDK;
 using Playnite.SDK.Data;
-using System;
 using System.Collections.Generic;
-using System.Linq;
-using System.Text;
-using System.Threading.Tasks;
 
 namespace FreeGameNotifications
 {
     public class FreeGameNotificationsSettings : ObservableObject
     {
-        private string option1 = string.Empty;
         private bool alwaysShowNotifications = false;
-        private bool optionThatWontBeSaved = false;
-        private int checkInterval = 3600000;
+        private int checkInterval = 6; // in hours ; minimum is every 1 hour
+        private bool useNotificationHistory = true;
+        private List<string> history = new List<string>();
 
-        public string Option1 { get => option1; set => SetValue(ref option1, value); }
+
         public bool AlwaysShowNotifications { get => alwaysShowNotifications; set => SetValue(ref alwaysShowNotifications, value); }
         public int CheckInterval { get => checkInterval; set => SetValue(ref checkInterval, value); }
-
-        // Playnite serializes settings object to a JSON object and saves it as text file.
-        // If you want to exclude some property from being saved then use `JsonDontSerialize` ignore attribute.
-        [DontSerialize]
-        public bool OptionThatWontBeSaved { get => optionThatWontBeSaved; set => SetValue(ref optionThatWontBeSaved, value); }
+        public bool UseNotificationHistory { get => useNotificationHistory; set => SetValue(ref useNotificationHistory, value); }
+        public List<string> History { get => history; set => SetValue(ref history, value); }
     }
 
     public class FreeGameNotificationsSettingsViewModel : ObservableObject, ISettings
     {
         private readonly FreeGameNotifications plugin;
-        private FreeGameNotificationsSettings editingClone { get; set; }
+        private FreeGameNotificationsSettings EditingClone { get; set; }
 
         private FreeGameNotificationsSettings settings;
         public FreeGameNotificationsSettings Settings
@@ -63,14 +56,14 @@ namespace FreeGameNotifications
         public void BeginEdit()
         {
             // Code executed when settings view is opened and user starts editing values.
-            editingClone = Serialization.GetClone(Settings);
+            EditingClone = Serialization.GetClone(Settings);
         }
 
         public void CancelEdit()
         {
             // Code executed when user decides to cancel any changes made since BeginEdit was called.
             // This method should revert any changes made to Option1 and Option2.
-            Settings = editingClone;
+            Settings = EditingClone;
         }
 
         public void EndEdit()
@@ -87,9 +80,13 @@ namespace FreeGameNotifications
             // List of errors is presented to user if verification fails.
             errors = new List<string>();
 
-            if (settings.CheckInterval < 60000)
+            if (settings.CheckInterval < 1)
             {
-                settings.CheckInterval = 60000;
+                settings.CheckInterval = 1;
+            }
+            else if (settings.CheckInterval > 24)
+            {
+                settings.CheckInterval = 24;
             }
 
             this.plugin.ResetTimer(settings.CheckInterval);
