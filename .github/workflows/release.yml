@@ -26,23 +26,23 @@ jobs:
           name: FreeGameNotifications
           path: ./artifacts/
 
-      - name: Create GitHub Release
-        uses: actions/create-release@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          tag_name: ${{ github.event.inputs.tag_name }}
-          release_name: ${{ github.event.inputs.release_name || github.event.inputs.tag_name }}
-          body: ${{ github.event.inputs.release_body }}
-          draft: true
-          prerelease: ${{ contains(github.event.inputs.tag_name, '-pre') || contains(github.event.inputs.tag_name, '-rc') }}
+      # - name: Create GitHub Release
+      #   uses: actions/create-release@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     tag_name: ${{ github.event.inputs.tag_name }}
+      #     release_name: ${{ github.event.inputs.release_name || github.event.inputs.tag_name }}
+      #     body: ${{ github.event.inputs.release_body }}
+      #     draft: true
+      #     prerelease: ${{ contains(github.event.inputs.tag_name, '-pre') || contains(github.event.inputs.tag_name, '-rc') }}
 
-      - name: Upload Release Asset
-        uses: actions/upload-release-asset@v1
-        env:
-          GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
-        with:
-          upload_url: ${{ steps.create_release.outputs.upload_url }}
-          asset_path: ./artifacts/ # Path to your artifact
-          asset_name: ${{ listFiles(format('./artifacts/'))[0] }}
-          asset_content_type: application/octet-stream # Or your asset's content type
+      # - name: Upload Release Asset
+      #   uses: actions/upload-release-asset@v1
+      #   env:
+      #     GITHUB_TOKEN: ${{ secrets.GITHUB_TOKEN }}
+      #   with:
+      #     upload_url: ${{ steps.create_release.outputs.upload_url }}
+      #     asset_path: ./artifacts/ # Path to your artifact
+      #     asset_name: ${{ listFiles(format('./artifacts/'))[0] }}
+      #     asset_content_type: application/octet-stream # Or your asset's content type
