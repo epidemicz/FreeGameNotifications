@@ -6,7 +6,7 @@ This plugin periodically checks the Epic Games Store for free games and gives yo
 Clicking the notification brings you to the game page so you can claim it.
 
 ## Todo
-Eventually I would like to support checking other game stores
+Eventually I would like to support checking other game stores.
 
 ## Screenshots
 
