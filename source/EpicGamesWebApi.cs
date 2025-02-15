@@ -15,6 +15,8 @@ namespace FreeGameNotifications
 {
     public class EpicGamesWebApi
     {
+        private static readonly ILogger logger = LogManager.GetLogger();
+
         public static async Task<List<Notification>> GetGames()
         {
             using (var client = new HttpClient())
@@ -38,6 +40,7 @@ namespace FreeGameNotifications
                         // skipping code redemption only
                         if (isCodeRedemptionOnly)
                         {
+                            logger.Info($"Game {gameTitle} is marked as Code Redemption Only, skipping.");
                             continue;
                         }
 

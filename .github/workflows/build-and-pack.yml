@@ -1,0 +1,30 @@
+name: Build & Pack Extension
+
+on:
+  push:
+    branches: [main, dev]
+  workflow_dispatch: {}
+
+jobs:
+  build-and-pack:
+    runs-on: windows-latest
+    steps:
+      - name: Checkout code
+        uses: actions/checkout@v4
+
+      - name: Setup MSBuild
+        uses: microsoft/setup-msbuild@v2
+
+      - name: Setup NuGet
+        uses: NuGet/setup-nuget@v2
+
+      - name: Setup .NET Core
+        uses: actions/setup-dotnet@v4
+        with:
+          dotnet-version: "8.0.x"
+
+      - name: Run the Cake script
+        uses: cake-build/cake-action@v3
+        with:
+          script-path: ./build.cake
+          target: Pack
