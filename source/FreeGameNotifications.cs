@@ -111,7 +111,7 @@ namespace FreeGameNotifications
                     continue;
                 }
 
-                logger.Debug($"{game.Title} : showing notifcation");
+                logger.Debug($"{game.Title} : showing notification");
 
                 var notification = new NotificationMessage($"{game.Title}", game.Description, NotificationType.Info, () =>
                 {

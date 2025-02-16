@@ -1,6 +1,7 @@
 ﻿using Playnite.SDK;
 using Playnite.SDK.Data;
 using System.Collections.Generic;
+using System.Linq;
 
 namespace FreeGameNotifications
 {
@@ -70,6 +71,10 @@ namespace FreeGameNotifications
         {
             // Code executed when user decides to confirm changes made since BeginEdit was called.
             // This method should save settings made to Option1 and Option2.
+            
+            // remove duplicates from history before saving
+            settings.History = settings.History.Distinct().ToList();
+
             plugin.SavePluginSettings(Settings);
         }
 
